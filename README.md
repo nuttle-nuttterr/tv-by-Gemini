@@ -2,8 +2,8 @@
 
 This playlist is automatically checked, perfectly categorized, A-Z sorted, completely deduplicated (1 link per channel), and updated every 6 hours.
 
-**Total LIVE Channels:** 248
-**Last Updated:** 2026-07-05 04:45:32 UTC
+**Total LIVE Channels:** 236
+**Last Updated:** 2026-07-05 09:18:07 UTC
 
 ## 📥 Playlist URL
 Use the **Copy button** in the top right corner of the box below. Paste it directly into your IPTV Player:
@@ -32,6 +32,6 @@ https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playl
 | English Lifestyle | 2 |
 | English Kids | 3 |
 | Sports | 7 |
-| local channels | 23 |
-| Tamil Local Channels | 143 |
+| local channels | 24 |
+| Tamil Local Channels | 130 |
 | tamil iptv channels | 20 |

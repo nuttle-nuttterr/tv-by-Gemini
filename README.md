@@ -2,36 +2,36 @@
 
 This playlist is automatically checked, perfectly categorized, A-Z sorted, completely deduplicated (1 link per channel), and updated every 6 hours.
 
-**Total LIVE Channels:** 236
-**Last Updated:** 2026-07-05 09:18:07 UTC
+**Total LIVE Channels:** 598
+**Last Updated:** 2026-07-05 12:02:12 UTC
 
 ## 📥 Playlist URL
 Use the **Copy button** in the top right corner of the box below. Paste it directly into your IPTV Player:
 
 ```text
-https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playlist.m3u
+[https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playlist.m3u](https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playlist.m3u)
 ```
 
 ## 📊 Channel Breakdown
 | Category | Count |
 |---|---|
-| Tamil GEC | 6 |
-| Tamil Movies | 4 |
-| Tamil News | 3 |
+| Tamil GEC | 8 |
+| Tamil Movies | 6 |
+| Tamil News | 7 |
 | Tamil Comedy | 2 |
-| Tamil Music | 3 |
-| Tamil Infotainment | 1 |
+| Tamil Music | 4 |
+| Tamil Infotainment | 2 |
 | Tamil Spiritual | 7 |
-| Tamil Kids | 1 |
-| English GEC | 2 |
-| English Movies | 7 |
-| English National News | 5 |
-| English International News | 3 |
-| English Business News | 1 |
+| Tamil Kids | 4 |
+| English GEC | 3 |
+| English Movies | 10 |
+| English National News | 7 |
+| English International News | 4 |
+| English Business News | 3 |
 | English Infotainment | 5 |
 | English Lifestyle | 2 |
-| English Kids | 3 |
-| Sports | 7 |
-| local channels | 24 |
-| Tamil Local Channels | 130 |
-| tamil iptv channels | 20 |
+| English Kids | 7 |
+| Sports | 9 |
+| Local Channels | 58 |
+| Tamil Local Channels | 428 |
+| Tamil IPTV Channels | 22 |

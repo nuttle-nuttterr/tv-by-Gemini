@@ -563,7 +563,7 @@ def main():
         
         f.write("```text\n")
         # Updated URL to your exact new repo!
-        f.write("[https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playlist.m3u](https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playlist.m3u)\n")
+        f.write("https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playlist.m3u\n")
         f.write("```\n\n")
         
         f.write("## 📊 Channel Breakdown\n| Category | Count |\n|---|---|\n")

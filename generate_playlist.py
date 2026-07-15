@@ -352,10 +352,6 @@ def clean_name(name):
     return ' '.join(name.split()).strip()
 
 def get_dedup_key(name):
-    """
-    Strips ALL variations (HD, SD, FHD, special chars, and extra labels)
-    to match identical channels perfectly.
-    """
     n = name.lower()
     n = re.sub(r'\s*\[.*?\]\s*', '', n)
     n = re.sub(r'\s*\(.*?\)\s*', '', n)
@@ -371,11 +367,9 @@ def is_blocked(name):
 def get_category_and_name(name):
     if is_blocked(name): return None, None
     n = name.lower()
-    
     for _, kw, proper_name, cat in FLAT_CATEGORIES:
         if re.search(r'\b' + re.escape(kw) + r'\b', n) or kw in n:
             return cat, proper_name
-            
     return None, None
 
 def parse_m3u(content):
@@ -410,9 +404,10 @@ def parse_json(content):
 
 def strict_stream_check(url, cat):
     """
-    Fixed Health Checker:
-    - Bypasses false negatives caused by Indian geo-blocking (403, 401, 451, etc.)
-    - Drops fake 200 OK HTML/JSON error pages
+    Fixed Multi-Protocol Health Checker:
+    - Protects geo-blocked requests on workflows (403, 401, 451, etc.)
+    - Drops HTML text wrapper payloads safely
+    - Natively permits video stream wrappers like DASH (.mpd) and direct binaries (.mkv/.mp4)
     """
     timeout_val = 5.0 if "local" in cat.lower() else 8.0
     headers = {'User-Agent': 'VLC/3.0.16 LibVLC/3.0.16', 'Accept': '*/*'}
@@ -420,7 +415,6 @@ def strict_stream_check(url, cat):
     try:
         response = requests.get(url, headers=headers, timeout=timeout_val, stream=True, allow_redirects=True)
         
-        # Safe-listing geo-blocked servers on GitHub actions
         if response.status_code in [403, 401, 451, 429, 400]:
             return True
             
@@ -428,6 +422,11 @@ def strict_stream_check(url, cat):
             return False
         
         ctype = response.headers.get('Content-Type', '').lower()
+        
+        # Express clearance for video, audio, or MPEG-DASH streams
+        if any(v in ctype for v in ['video/', 'audio/', 'application/dash+xml', 'application/vnd.apple.mpegurl']):
+            return True
+            
         if 'text/html' in ctype or 'application/json' in ctype: 
             return False
             
@@ -435,7 +434,6 @@ def strict_stream_check(url, cat):
         if not chunk: return False
             
         text_chunk = chunk.decode('utf-8', errors='ignore').lower()
-        
         if '<html' in text_chunk or '<body' in text_chunk or '<!doctype' in text_chunk:
             return False
             
@@ -452,17 +450,14 @@ def process_channel_urls(item):
     for url in data['urls']:
         if strict_stream_check(url, cat):
             return (cat, proper_name, logo, url) 
-            
     return None 
 
 def main():
     print("Starting Perfect Deduplication, Category Mapping, & Verification Script...")
     
-    # Structural Map keyed by get_dedup_key to eliminate duplicates completely
     grouped_channels = {}
     seen_urls_global = set()
 
-    # --- 1. GATHER CUSTOM CHANNELS FIRST (Always Protected) ---
     print("\nGathering User Custom Channels...")
     custom_parsed = parse_m3u(USER_CUSTOM_CHANNELS)
     for name, logo, url, custom_cat in custom_parsed:
@@ -478,7 +473,6 @@ def main():
             grouped_channels[dedup_key] = {'category': cat, 'logo': logo, 'proper_name': proper_name, 'urls': []}
         grouped_channels[dedup_key]['urls'].append(url)
 
-    # --- 2. GATHER FROM GITHUB REPOS ---
     for src_url in SOURCES:
         print(f"Scraping source: {src_url}")
         try:
@@ -494,7 +488,6 @@ def main():
                 if is_blocked(name): continue 
                 
                 cat, proper_name = get_category_and_name(name)
-                
                 if not cat:
                     if src_url in LOCAL_SOURCES:
                         cat = "Tamil Local Channels"
@@ -503,19 +496,16 @@ def main():
                         continue 
                 
                 dedup_key = get_dedup_key(proper_name)
-                
                 if dedup_key not in grouped_channels:
                     grouped_channels[dedup_key] = {'category': cat, 'logo': logo, 'proper_name': proper_name, 'urls': []}
                 grouped_channels[dedup_key]['urls'].append(url)
                 if not grouped_channels[dedup_key]['logo'] and logo:
                     grouped_channels[dedup_key]['logo'] = logo
-                    
         except Exception:
             pass
 
     print(f"\n-> Extracted {len(grouped_channels)} distinct channels. Testing streams to isolate 1 winner per channel...")
     
-    # --- 3. MULTITHREADED ADAPTIVE TESTING ---
     final_channels = {cat: [] for cat in CATEGORY_ORDER}
     total_added = 0
     
@@ -529,7 +519,6 @@ def main():
                 final_channels[cat].append((proper_name, logo, url))
                 total_added += 1
 
-    # --- 4. EXPORT PERFECTED M3U PLAYLIST ---
     print("\nWriting master_playlist.m3u in flawless category sequence...")
     with open("master_playlist.m3u", "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
@@ -553,20 +542,16 @@ def main():
 
     print(f"\n✅ SUCCESS! Total Working Unique Channels Saved: {total_added}")
     
-    # --- 5. README MARKDOWN WRITER ---
     timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
     with open("README.md", "w", encoding="utf-8") as f:
         f.write("# Tamil & English IPTV Playlist\n\n")
         f.write("This playlist is automatically checked, perfectly categorized, A-Z sorted, completely deduplicated (1 link per channel), and updated every 6 hours.\n\n")
         f.write(f"**Total LIVE Channels:** {total_added}\n**Last Updated:** {timestamp}\n\n")
-        
         f.write("## 📥 Playlist URL\n")
         f.write("Use the **Copy button** in the top right corner of the box below. Paste it directly into your IPTV Player:\n\n")
-        
         f.write("```text\n")
         f.write("[https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playlist.m3u](https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playlist.m3u)\n")
         f.write("```\n\n")
-        
         f.write("## 📊 Channel Breakdown\n| Category | Count |\n|---|---|\n")
         for cat in CATEGORY_ORDER:
             if cat in final_channels and final_channels[cat]:

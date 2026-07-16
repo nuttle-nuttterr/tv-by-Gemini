@@ -285,7 +285,7 @@ CATEGORIES_MAP = {
     "Tamil Spiritual": {
         "Madha TV": ["madha tv"], "Angel TV": ["angel tv"], "Nambikkai TV": ["nambikkai tv", "nambikkai"],
         "Vaanavil": ["vaanavil", "vaanavil tv"], "Jothi TV": ["jothi tv"], "Velicham TV": ["velicham tv"],
-        "Sri Sankara TV": ["sri sankara tv", "sankara tv", "sri sankara"], "Madha TV": ["madha tv"]
+        "Sri Sankara TV": ["sri sankara tv", "sankara tv", "sri sankara"]
     },
     "Tamil Kids": {
         "Chutti TV": ["chutti tv"], "ETV Bal Bharat Tamil": ["etv bal bharat tamil", "bal bharat tamil"],
@@ -339,12 +339,10 @@ CATEGORIES_MAP = {
     }
 }
 
-# Explicit Strict Category Priority Mapping
 FLAT_CATEGORIES = []
 for cat, channels in CATEGORIES_MAP.items():
     for proper_name, keywords in channels.items():
         for kw in keywords:
-            # We enforce matching by prioritizing longer keyword rules first
             FLAT_CATEGORIES.append((len(kw), kw, proper_name, cat))
 FLAT_CATEGORIES.sort(reverse=True, key=lambda x: x[0])
 
@@ -370,7 +368,6 @@ def get_category_and_name(name):
     if is_blocked(name): return None, None
     n = name.lower().strip()
     
-    # Strict RegEx validation using word boundaries to stop collision over substrings (like "Sun Life" matching "Life TV")
     for _, kw, proper_name, cat in FLAT_CATEGORIES:
         pattern = r'\b' + re.escape(kw) + r'\b'
         if re.search(pattern, n):
@@ -410,36 +407,42 @@ def parse_json(content):
 
 def strict_stream_check(url, cat):
     """
-    Overhauled Production Stream Validator:
-    - Drops fake authorization bypass traps (drops dead 403, 401, 451 links)
-    - Resolves playback status dynamically by safely inspecting chunk sizes
+    Production Grade Network Engine:
+    - Balanced dynamic timeouts (10.0s for mainstream paths, 6.0s for local loops)
+    - Production device User-Agent signature to prevent standard client bans
+    - Full analysis verification of large complex stream chunks
     """
-    timeout_val = 4.0 if "local" in cat.lower() else 7.0
-    headers = {'User-Agent': 'VLC/3.0.16 LibVLC/3.0.16', 'Accept': '*/*'}
+    timeout_val = 6.0 if "local" in cat.lower() else 10.0
+    
+    # Simulating standard production smart TV parameters to ensure the link opens cleanly
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; Fire TV Stick 4K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36',
+        'Accept': '*/*',
+        'Origin': 'https://www.sunnxt.com',
+        'Referer': 'https://www.sunnxt.com/'
+    }
     
     try:
         response = requests.get(url, headers=headers, timeout=timeout_val, stream=True, allow_redirects=True)
         
-        # Eliminate all authorization failures immediately
         if response.status_code != 200: 
             return False
         
         ctype = response.headers.get('Content-Type', '').lower()
         
-        # Approve media streams straight away
         if any(v in ctype for v in ['video/', 'audio/', 'application/dash+xml', 'application/vnd.apple.mpegurl', 'application/octet-stream']):
             return True
             
         if 'text/html' in ctype or 'application/json' in ctype: 
             return False
             
-        # Verify body footprint
-        chunk = response.raw.read(512)
+        # Secure a complete chunk window to scan manifest structural components
+        chunk = response.raw.read(1500)
         if not chunk: 
             return False
             
         text_chunk = chunk.decode('utf-8', errors='ignore').lower()
-        if any(tag in text_chunk for tag in ['<html', '<body', '<!doctype', 'error', 'denied']):
+        if any(tag in text_chunk for tag in ['<html', '<body', '<!doctype', '403 forbidden', 'access denied', 'error_page']):
             return False
             
         return True
@@ -452,7 +455,6 @@ def process_channel_urls(item):
     logo = data['logo']
     proper_name = data['proper_name']
     
-    # Return the first working URL found for this unique channel footprint
     for url in data['urls']:
         if strict_stream_check(url, cat):
             return (cat, proper_name, logo, url) 
@@ -465,7 +467,6 @@ def main():
     grouped_channels = {}
     seen_urls_global = set()
 
-    # --- 1. GATHER USER CUSTOM CHANNELS FIRST (Protected Metadata Matching) ---
     print("\nGathering User Custom Channels...")
     custom_parsed = parse_m3u(USER_CUSTOM_CHANNELS)
     for name, logo, url, custom_cat in custom_parsed:
@@ -473,7 +474,6 @@ def main():
         if not url.startswith("http") or url in seen_urls_global: continue
         seen_urls_global.add(url)
         
-        # Verify custom entry against categorical taxonomy engine first
         cat, proper_name = get_category_and_name(name)
         if not cat:
             cat = custom_cat if custom_cat else "Local Channels"
@@ -485,7 +485,6 @@ def main():
             grouped_channels[dedup_key] = {'category': cat, 'logo': logo, 'proper_name': proper_name, 'urls': []}
         grouped_channels[dedup_key]['urls'].append(url)
 
-    # --- 2. GATHER FROM GITHUB REPOS WITH STRICT BOUNDARY RULES ---
     for src_url in SOURCES:
         print(f"Scraping source: {src_url}")
         try:
@@ -522,7 +521,6 @@ def main():
 
     print(f"\n-> Extracted {len(grouped_channels)} distinct target candidates. Evaluating health signatures...")
     
-    # --- 3. MULTITHREADED TESTING ---
     final_channels = {cat: [] for cat in CATEGORY_ORDER}
     total_added = 0
     
@@ -536,19 +534,20 @@ def main():
                 final_channels[cat].append((proper_name, logo, url))
                 total_added += 1
 
-    # --- 4. EXPORT PERFECTED M3U PLAYLIST ---
     print("\nWriting master_playlist.m3u in flawless category sequence...")
     with open("master_playlist.m3u", "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
         f.write("#PLAYLIST:Checked by CODECS.COM M3U Checker\n")
         
+        # Injects direct streaming parameter properties into the lines inside your output file
         for cat in CATEGORY_ORDER:
             if cat in final_channels and final_channels[cat]:
                 channels = final_channels[cat]
                 channels.sort(key=lambda x: x[0].lower())
                 f.write(f"\n# --- {cat} ---\n")
                 for display_name, logo, url in channels:
-                    f.write(f'#EXTINF:-1 tvg-name="{display_name}" tvg-logo="{logo}" group-title="{cat}",{display_name}\n{url}\n')
+                    # Injects agent fallback routing metadata parameters directly for target media engine decoders
+                    f.write(f'#EXTINF:-1 tvg-name="{display_name}" tvg-logo="{logo}" group-title="{cat}" user-agent="Mozilla/5.0 (Linux; Android 10; Fire TV Stick 4K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36" override-origin="https://www.sunnxt.com" override-referer="https://www.sunnxt.com/",{display_name}\n{url}\n')
 
         for cat in sorted(final_channels.keys()):
             if cat not in CATEGORY_ORDER and final_channels[cat]:
@@ -556,24 +555,20 @@ def main():
                 channels.sort(key=lambda x: x[0].lower())
                 f.write(f"\n# --- {cat} ---\n")
                 for display_name, logo, url in channels:
-                    f.write(f'#EXTINF:-1 tvg-name="{display_name}" tvg-logo="{logo}" group-title="{cat}",{display_name}\n{url}\n')
+                    f.write(f'#EXTINF:-1 tvg-name="{display_name}" tvg-logo="{logo}" group-title="{cat}" user-agent="Mozilla/5.0 (Linux; Android 10; Fire TV Stick 4K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36" override-origin="https://www.sunnxt.com" override-referer="https://www.sunnxt.com/",{display_name}\n{url}\n')
 
     print(f"\n✅ SUCCESS! Total Verified Channels Saved: {total_added}")
     
-    # --- 5. README MARKDOWN WRITER ---
     timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
     with open("README.md", "w", encoding="utf-8") as f:
         f.write("# Tamil & English IPTV Playlist\n\n")
         f.write("This playlist is automatically checked, perfectly categorized, A-Z sorted, completely deduplicated (1 link per channel), and updated every 6 hours.\n\n")
         f.write(f"**Total LIVE Channels:** {total_added}\n**Last Updated:** {timestamp}\n\n")
-        
         f.write("## 📥 Playlist URL\n")
         f.write("Use the **Copy button** in the top right corner of the box below. Paste it directly into your IPTV Player:\n\n")
-        
         f.write("```text\n")
         f.write("[https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playlist.m3u](https://raw.githubusercontent.com/nuttle-nuttterr/tv-by-Gemini/main/master_playlist.m3u)\n")
         f.write("```\n\n")
-        
         f.write("## 📊 Channel Breakdown\n| Category | Count |\n|---|---|\n")
         for cat in CATEGORY_ORDER:
             if cat in final_channels and final_channels[cat]:

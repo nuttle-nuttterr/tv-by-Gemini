@@ -161,7 +161,7 @@ https://ndtvprofit.akamaized.net/hls/live/2107404/ndtvprofit/master_1.m3u8
 #EXTINF:-1 tvg-name="Animal Planet" tvg-logo="https://vmfm.github.io/tamilvmtv/image/Animal_Planet.png" group-title="English Infotainment",Animal Planet
 https://vodzong.mjunoon.tv:8087/streamtest/Animal-Planet-158-3/playlist.m3u8
 #EXTINF:-1 tvg-name="Discovery Channel" tvg-logo="https://jiotv.catchup.cdn.jio.com/dare_images/images/Discovery.png" group-title="English Infotainment",Discovery Channel
-https://vt-ip.vodep39240327.workers.dev/1342.m3u8
+https://vt-ip.vodep39240327.workers.dev/1726.m3u8
 #EXTINF:-1 tvg-name="History TV18" tvg-logo="https://m.media-amazon.com/images/M/MV5BMjhhMTk1MjEtZDAwNS00NDYxLTljYzEtYjhmYjlmMDhhNzQyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" group-title="English Infotainment",History TV18
 https://tentkotta.short.gy/AgADiR5818.mkv
 #EXTINF:-1 tvg-name="National Geographic" tvg-logo="https://jiotv.catchup.cdn.jio.com/dare_images/images/Nat_Geo_Wild_HD.png" group-title="English Infotainment",National Geographic
@@ -183,7 +183,7 @@ http://202.70.146.135:8000/play/a01q/index.m3u8
 #EXTINF:-1 tvg-name="Disney Junior" tvg-logo="https://jiotv.catchup.cdn.jio.com/dare_images/images/Disney_Junior.png" group-title="English Kids",Disney Junior
 http://185.102.171.218/DisneyJunior/index.m3u8
 #EXTINF:-1 tvg-name="Nickelodeon" tvg-logo="https://v3img.voot.com/resizeMedium,w_450,h_253/v3Storage/assets//16x9-1719554242246.jpg" group-title="English Kids",Nickelodeon
-https://vt-ip.vodep39240327.workers.dev/239.m3u8
+https://vt-ip.vodep39240327.workers.dev/2029.m3u8
 #EXTINF:-1 tvg-name="Sonic" tvg-logo="https://v3img.voot.com/resizeMedium,w_450,h_253/v3Storage/assets/sonic-16x9-2-1626707025539.jpg" group-title="English Kids",Sonic
 https://stream-us-east-1.getpublica.com/playlist.m3u8?network_id=16764
 
@@ -760,6 +760,8 @@ https://live.singamcloud.in/maatv/maatv/index.m3u8
 https://stream.onecloudlive.in/mm/maduratv/index.m3u8
 #EXTINF:-1 tvg-name="Madurai Arasi TV" tvg-logo="https://livetv.ashokadigital.net/upload/logo/1781584569_Madurai%20Arasi%20(2).png" group-title="Tamil Local Channels",Madurai Arasi TV
 https://app.xstream.onecloudlive.in/maduraiarasi/livestream/index.m3u8
+#EXTINF:-1 tvg-name="Magalir TV" tvg-logo="https://firebasestorage.googleapis.com/v0/b/playnow-7ce03.appspot.com/o/LOGO%2FCTN%2FCTN-MAGALIR-TV.png?alt=media&token=479bc182-afa2-406a-8dbb" group-title="Tamil Local Channels",Magalir TV
+https://ipcloud.live/ctn/magalir/index.m3u8
 #EXTINF:-1 tvg-name="Mahimai TV" tvg-logo="https://tamiltvchannels.com/img/devotional/Mahimai%20TV.png" group-title="Tamil Local Channels",Mahimai TV
 https://ktismaservers.in:3161/live/mahimaitvlive.m3u8
 #EXTINF:-1 tvg-name="Makkalpani TV" tvg-logo="https://raw.githubusercontent.com/amazeyourself/tamil-local-iptv/refs/heads/main/logos/MakkalpaniTV.png" group-title="Tamil Local Channels",Makkalpani TV
@@ -818,6 +820,8 @@ https://ipcloud.live/mullaitv/mullaitv/index.m3u8
 https://stream.iplive.xyz/faithtv/faithtv/index.m3u8
 #EXTINF:-1 tvg-name="My Jesus TV" tvg-logo="http://phoenixcreations.online/ott/joshuaott/uploads/1762179777_AngelTV(3).png" group-title="Tamil Local Channels",My Jesus TV
 https://5790d294af2dc.streamlock.net/myjesustv/myjesustv/playlist.m3u8
+#EXTINF:-1 tvg-name="Nakkubetta TV" tvg-logo="https://livetv.ashokadigital.net/upload/logo/1736877333_1731949928_WhatsApp%20Image%202024-11-18%20at%209.51.44%20PM%20(1).png" group-title="Tamil Local Channels",Nakkubetta TV
+https://rojatv.cloud/nbtv/nbtv/index.m3u8
 #EXTINF:-1 tvg-name="Namma Gobi TV" tvg-logo="https://www.ashokadigital.net/_next/image?url=https%3A%2F%2Flivetv.ashokadigital.net%2Fupload%2Flogo%2F1751788665_png%2520logo.png&w=1920&q=75" group-title="Tamil Local Channels",Namma Gobi TV
 https://cdn1.rojatv.cloud/nammagobi/tv/index.m3u8
 #EXTINF:-1 tvg-name="Nanjil Natham TV" tvg-logo="https://tamiltvchannels.com/img/devotional/Nanjilnatham%20TV.png" group-title="Tamil Local Channels",Nanjil Natham TV
@@ -1048,8 +1052,6 @@ https://stream.ashokadigital.net/thendraltv/thendraltv/index.m3u8
 https://w6oy7zkpdxrg-hls-live.5centscdn.com/THENDRALHD/aac0b08f91370cd39f61343d2b6e8069.sdp/playlist.m3u8
 #EXTINF:-1 tvg-name="Thendral TV Nellai" tvg-logo="https://api.nellaiiptv.com/public/uploads/channel/logos/thentral_tv_1770712936.webp" group-title="Tamil Local Channels",Thendral TV Nellai
 https://srv4.nellaiiptv.com/live/tv/index.m3u8
-#EXTINF:-1 tvg-name="Thentamil TV" tvg-logo="https://raw.githubusercontent.com/amazeyourself/tamil-local-iptv/refs/heads/main/logos/ThentamilTV.png" group-title="Tamil Local Channels",Thentamil TV
-http://thentv.stream.onecloudlive.in/thentv/thentvhd/index.m3u8
 #EXTINF:-1 tvg-name="Thirai Isai" tvg-logo="https://vmfm.github.io/tamilvmtv/image/Thirai_Isai-tv.png" group-title="Tamil Local Channels",Thirai Isai
 https://view.apserver.in/tmp_hls1/thiraitvplus/index.m3u8
 #EXTINF:-1 tvg-name="Thirai Music" tvg-logo="https://raw.githubusercontent.com/amazeyourself/tamil-local-iptv/refs/heads/main/logos/ThiraiTVMusic.png" group-title="Tamil Local Channels",Thirai Music
@@ -1095,7 +1097,7 @@ http://117.247.192.123:8080/vds/vds.m3u8?psk=123456
 #EXTINF:-1 tvg-name="Veera TV" tvg-logo="https://firebasestorage.googleapis.com/v0/b/playnow-7ce03.appspot.com/o/LOGO%2FVEERA-TV.png?alt=media&token=ca6c5424-0fbe-4a20-815d-1465391a9819" group-title="Tamil Local Channels",Veera TV
 https://ipcloud.live/veeratv/veeratvhd/index.m3u8
 #EXTINF:-1 tvg-name="Velan TV" tvg-logo="https://www.ashokadigital.net/_next/image?url=https%3A%2F%2Flivetv.ashokadigital.net%2Fupload%2Flogo%2F1750343383_aPre-comp%25201_01085.png&w=1920&q=75" group-title="Tamil Local Channels",Velan TV
-https://cloudstream4k.com/velantvhdkanchi/bsk/playlist.m3u8
+http://velantv.phoenixcreations.online/velantv/velantv/index.m3u8
 #EXTINF:-1 tvg-name="Velavan TV" tvg-logo="https://sscloud7.in/app/sscloud7/assets/tvchannels/phoenixtv-tvchannelavathar-phoenixtv1755348568.png" group-title="Tamil Local Channels",Velavan TV
 http://velavantv.sscloud7.in/live/velavantv/index.m3u8
 #EXTINF:-1 tvg-name="Vetri TV" tvg-logo="https://play-lh.googleusercontent.com/XMxl1RI97TsGNGLiNySIv_5EQ8XI8ywoghPlzsZItfM-PaiuTKkRb5sNN_hlG8ZrMNua7FFUnv0jKlFA5gh2rQ" group-title="Tamil Local Channels",Vetri TV
